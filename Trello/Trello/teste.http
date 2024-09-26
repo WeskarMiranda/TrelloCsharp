@@ -1,23 +1,32 @@
-POST http://localhost:5031/user
+POST http://localhost:5031/user/register
 Content-Type: application/json
 
 {
-    "nome": "John Doe",
-    "password": "123456"
+    "nome": "Weskar",
+    "password": "90"
+}
+###
+POST http://localhost:5031/user/login
+Content-Type: application/json
+
+{
+    "nome": "Weskar",
+    "password": "90"
 }
 ###
 GET http://localhost:5031/user/listar
 
 ###
-PUT http://localhost:5031/user/1
+PUT http://localhost:5031/user/alterar/6
 Content-Type: application/json
 
 {
-    "nome": "Jane Doe",
-    "password": "newpassword123"
+    "nome": "Weskar",
+    "password": "60"
 }
 
 ###
-DELETE http://localhost:5031/user/1
+DELETE http://localhost:5031/user/deletar/6
 
+###
 ###

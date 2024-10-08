@@ -140,41 +140,72 @@ app.MapDelete("/user/deletar/{id}", async (int id, AppDbContext context) =>
 });
 
 // POST - Criar uma nova tarefa
-app.MapPost("/task/create", async (Tarefa tarefa, AppDbContext context) =>
+app.MapPost("/task/create", async (TaskCreateDto tarefaDto, AppDbContext context) =>
 {
-    if (string.IsNullOrEmpty(tarefa.Name))
+    if (string.IsNullOrEmpty(tarefaDto.Name))
     {
         return Results.BadRequest("O nome da tarefa é obrigatório.");
     }
 
+    // Lista para armazenar IDs de usuários que não foram encontrados
+    var usuariosNaoEncontrados = new List<int>();
+
     try
     {
-        context.Tarefas.Add(tarefa); // Adiciona a nova tarefa
+        // Crie a nova tarefa com os dados recebidos
+        var tarefa = new Tarefa
+        {
+            Name = tarefaDto.Name,
+            Description = tarefaDto.Description,
+            Status = tarefaDto.Status
+        };
 
-        // Adicione usuários à tarefa, se necessário
-        foreach (var userId in tarefa.UserIds)
+        // Adicione usuários à tarefa
+        foreach (var userId in tarefaDto.UserIds)
         {
             var user = await context.Users.FindAsync(userId);
             if (user != null)
             {
                 tarefa.TarefaUsers.Add(new TarefaUser { UserId = userId, Tarefa = tarefa });
+                Console.WriteLine($"Usuário com ID {userId} adicionado à tarefa.");
+            }
+            else
+            {
+                // Adiciona o ID à lista de usuários não encontrados
+                usuariosNaoEncontrados.Add(userId);
             }
         }
 
+        // Se algum usuário não foi encontrado, retorna erro
+        if (usuariosNaoEncontrados.Any())
+        {
+            return Results.BadRequest($"Os seguintes IDs de usuários não foram encontrados: {string.Join(", ", usuariosNaoEncontrados)}.");
+        }
+
+        // Se todos os usuários foram encontrados, salva a tarefa
+        context.Tarefas.Add(tarefa);
         await context.SaveChangesAsync();
+
         return Results.Created($"/task/{tarefa.Id}", tarefa);
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Erro ao criar tarefa: {ex.Message}"); // Log do erro
-        return Results.Problem($"Erro ao criar tarefa: {ex.Message}", statusCode: 500); // Retorna a mensagem do erro
+        Console.WriteLine($"Erro ao criar tarefa: {ex.Message}");
+        return Results.Problem($"Erro ao criar tarefa: {ex.Message}", statusCode: 500);
     }
 });
+
+
 
 // GET - Obter a lista de todas as tarefas
 app.MapGet("/task/listar", async (AppDbContext context) =>
 {
-    var tarefas = await context.Tarefas.ToListAsync();
+    // Inclua os relacionamentos TarefaUsers e Users ao buscar as tarefas
+    var tarefas = await context.Tarefas
+        .Include(t => t.TarefaUsers) // Inclui os relacionamentos de TarefaUsers
+        .ThenInclude(tu => tu.User)  // Inclui os usuários associados
+        .ToListAsync();
+
     return Results.Ok(tarefas);
 });
 

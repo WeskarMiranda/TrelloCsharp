@@ -3,6 +3,7 @@ Content-Type: application/json
 
 {
     "nome": "Weskar",
+    "email": "Email",
     "password": "90"
 }
 ###
@@ -11,22 +12,52 @@ Content-Type: application/json
 
 {
     "nome": "Weskar",
+    "email": "Email",
     "password": "90"
 }
 ###
 GET http://localhost:5031/user/listar
 
 ###
-PUT http://localhost:5031/user/alterar/6
+PUT http://localhost:5031/user/alterar/3
 Content-Type: application/json
 
 {
     "nome": "Weskar",
+    "email": "weskar.queiroz",
     "password": "60"
 }
 
 ###
-DELETE http://localhost:5031/user/deletar/6
+DELETE http://localhost:5031/user/deletar/3
+
+###
+###
+POST http://localhost:5031/task/create
+Content-Type: application/json
+
+{
+    "name": "teste6",
+    "description": "ewqeqweqwe",
+    "status": "pendente",
+    "userIds": [3]
+}
+###
+GET http://localhost:5031/task/listar
+
+###
+PUT http://localhost:5031/task/editar/12
+Content-Type: application/json
+
+{
+    "name": "teste6",
+    "description": "ewqeqweqwe",
+    "status": "pendente",
+    "userIds": [1]
+}
+
+###
+DELETE http://localhost:5031/task/deletar/12
 
 ###
 ###

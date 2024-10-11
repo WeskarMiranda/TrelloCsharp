@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System;
 using System.Text.Json.Serialization;
 
 namespace Trello.Models
@@ -12,7 +12,9 @@ namespace Trello.Models
         public string? Password { get; set; }
         public DateTime CriadoEm { get; set; }
 
-        [JsonIgnore] // Ignorar para evitar ciclos
-        public ICollection<TarefaUser> TarefaUsers { get; set; } = new List<TarefaUser>();
+        // Lista de Tarefas que o usuário está associado
+        [JsonIgnore] // Evitar ciclos
+        public List<Tarefa> Tarefas { get; set; } = new List<Tarefa>();
     }
-}  
+}
+ 

@@ -2,30 +2,31 @@ POST http://localhost:5031/user/register
 Content-Type: application/json
 
 {
-    "nome": "Weskar",
-    "email": "Email",
-    "password": "90"
+    "nome": "Bruno",
+    "email": "bruno.com",
+    "password": "60"
 }
 ###
 POST http://localhost:5031/user/login
 Content-Type: application/json
 
 {
-    "nome": "Weskar",
-    "email": "Email",
-    "password": "90"
+    "nome": "Wesk",
+    "email": "weskar.queiroz",
+    "password": "30"
 }
 ###
 GET http://localhost:5031/user/listar
 
 ###
-PUT http://localhost:5031/user/alterar/3
+PUT http://localhost:5031/user/alterar/1
 Content-Type: application/json
 
 {
-    "nome": "Weskar",
+    "nome": "Wesk",
     "email": "weskar.queiroz",
-    "password": "60"
+    "password": "30",
+    "taskIds": []
 }
 
 ###
@@ -40,13 +41,13 @@ Content-Type: application/json
     "name": "teste6",
     "description": "ewqeqweqwe",
     "status": "pendente",
-    "userIds": [3]
+    "userIds": [1, 2]
 }
 ###
 GET http://localhost:5031/task/listar
 
 ###
-PUT http://localhost:5031/task/editar/12
+PUT http://localhost:5031/task/editar/1
 Content-Type: application/json
 
 {
@@ -57,7 +58,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5031/task/deletar/12
+DELETE http://localhost:5031/task/deletar/2
 
 ###
 ###

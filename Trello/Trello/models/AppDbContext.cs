@@ -7,29 +7,17 @@ namespace Trello.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; } // Alterado para 'User'
+        public DbSet<User> Users { get; set; }
         public DbSet<Tarefa> Tarefas { get; set; }
-        public DbSet<TarefaUser> TarefaUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configurando a chave primária composta para a tabela TarefaUser
-            modelBuilder.Entity<TarefaUser>()
-                .HasKey(tu => new { tu.UserId, tu.TarefaId });
-
-            // Configurando o relacionamento entre TarefaUser e User
-            modelBuilder.Entity<TarefaUser>()
-                .HasOne(tu => tu.User)
-                .WithMany(u => u.TarefaUsers)
-                .HasForeignKey(tu => tu.UserId)
-                .OnDelete(DeleteBehavior.Cascade); // Comportamento de exclusão em cascata
-
-            // Configurando o relacionamento entre TarefaUser e Tarefa
-            modelBuilder.Entity<TarefaUser>()
-                .HasOne(tu => tu.Tarefa)
-                .WithMany(t => t.TarefaUsers)
-                .HasForeignKey(tu => tu.TarefaId)
-                .OnDelete(DeleteBehavior.Cascade); // Comportamento de exclusão em cascata
+            // Configurar o relacionamento de muitos para muitos sem a tabela intermediária
+            modelBuilder.Entity<Tarefa>()
+                .HasMany(t => t.Users)
+                .WithMany(u => u.Tarefas)
+                .UsingEntity(j => j.ToTable("UserTarefas")); // Tabela intermediária para o relacionamento
         }
     }
 }
+

@@ -11,7 +11,10 @@ namespace Trello.Models
         public string? Email { get; set; }
         public string? Password { get; set; }
         public DateTime CriadoEm { get; set; }
-
+        
+        [JsonIgnore]
+        public List<Calendar> Calendars { get; set; } = new List<Calendar>();
+        
         // Lista de Tarefas que o usuário está associado
         [JsonIgnore] // Evitar ciclos
         public List<Tarefa> Tarefas { get; set; } = new List<Tarefa>();

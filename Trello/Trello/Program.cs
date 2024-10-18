@@ -295,5 +295,93 @@ app.MapDelete("/task/deletar/{id}", async (int id, AppDbContext context) =>
     return Results.Ok("Tarefa removida com sucesso.");
 });
 
+// POST - Criar um novo calendário
+app.MapPost("/calendar/create", async (CalendarCreateDto calendarDto, AppDbContext context) =>
+{
+    if (!await context.Users.AnyAsync(u => u.Id == calendarDto.UserId))
+    {
+        return Results.BadRequest("Usuário não encontrado.");
+    }
+
+    var calendar = new Calendar
+    {
+        Title = calendarDto.Title,
+        Description = calendarDto.Description,
+        Date = calendarDto.Date,
+        UserId = calendarDto.UserId
+    };
+
+    context.Calendars.Add(calendar);
+    await context.SaveChangesAsync();
+
+    return Results.Created($"/calendar/{calendar.Id}", calendar);
+});
+
+// GET - Obter todos os calendários
+app.MapGet("/calendar/list", async (AppDbContext context) =>
+{
+    var calendars = await context.Calendars
+        .Select(c => new
+        {
+            c.Id,
+            c.Title,
+            c.Description,
+            c.Date,
+            c.UserId
+        })
+        .ToListAsync();
+
+    return Results.Ok(calendars);
+});
+
+// GET - Obter calendários de um usuário específico
+app.MapGet("/calendar/user/{userId}", async (int userId, AppDbContext context) =>
+{
+    var calendars = await context.Calendars
+        .Where(c => c.UserId == userId)
+        .Select(c => new
+        {
+            c.Id,
+            c.Title,
+            c.Description,
+            c.Date
+        })
+        .ToListAsync();
+
+    return Results.Ok(calendars);
+});
+
+// PUT - Atualizar um calendário
+app.MapPut("/calendar/update/{id}", async (int id, CalendarUpdateDto calendarDto, AppDbContext context) =>
+{
+    var calendar = await context.Calendars.FindAsync(id);
+    if (calendar == null)
+    {
+        return Results.NotFound("Calendário não encontrado.");
+    }
+
+    calendar.Title = calendarDto.Title;
+    calendar.Description = calendarDto.Description;
+    calendar.Date = calendarDto.Date;
+
+    await context.SaveChangesAsync();
+    return Results.Ok("Calendário atualizado com sucesso.");
+});
+
+// DELETE - Excluir um calendário
+app.MapDelete("/calendar/delete/{id}", async (int id, AppDbContext context) =>
+{
+    var calendar = await context.Calendars.FindAsync(id);
+    if (calendar == null)
+    {
+        return Results.NotFound("Calendário não encontrado.");
+    }
+
+    context.Calendars.Remove(calendar);
+    await context.SaveChangesAsync();
+    return Results.Ok("Calendário excluído com sucesso.");
+});
+
+
 // Executar a aplicação
 app.Run();

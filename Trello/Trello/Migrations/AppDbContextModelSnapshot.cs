@@ -32,6 +32,32 @@ namespace Trello.Migrations
                     b.ToTable("UserTarefas", (string)null);
                 });
 
+            modelBuilder.Entity("Trello.Models.Calendar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Calendars");
+                });
+
             modelBuilder.Entity("Trello.Models.Tarefa", b =>
                 {
                     b.Property<int>("Id")
@@ -88,6 +114,22 @@ namespace Trello.Migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Trello.Models.Calendar", b =>
+                {
+                    b.HasOne("Trello.Models.User", "User")
+                        .WithMany("Calendars")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Trello.Models.User", b =>
+                {
+                    b.Navigation("Calendars");
                 });
 #pragma warning restore 612, 618
         }

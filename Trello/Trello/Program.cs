@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowReactApp",
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000") // Porta onde o React está rodando
+            policy.WithOrigins("http://localhost:3000") 
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -31,7 +31,7 @@ app.Use(async (context, next) =>
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Erro: {ex.Message}"); // Log do erro
+        Console.WriteLine($"Erro: {ex.Message}"); 
         context.Response.StatusCode = 500;
         await context.Response.WriteAsync("Ocorreu um erro inesperado.");
     }
@@ -48,13 +48,11 @@ app.MapPost("/user/register", async (UserRegistrationDto registrationDto, AppDbC
         return Results.BadRequest("Todos os campos são obrigatórios.");
     }
 
-    // Verificar se o usuário já existe
     if (await context.Users.AnyAsync(u => u.Email == registrationDto.Email))
     {
         return Results.BadRequest("Usuário já cadastrado.");
     }
 
-    // Criar o novo usuário
     var user = new User
     {
         Nome = registrationDto.Nome,
@@ -101,16 +99,16 @@ app.MapGet("/user/listar", async (AppDbContext context) =>
             u.Nome,
             u.Email,
             u.Password,
-            TaskIds = u.Tarefas.Select(t => t.Id).ToList() // Lista de IDs de tarefas
+            TaskIds = u.TarefaUsers.Select(t => t.TarefaId).ToList() 
         })
         .ToListAsync();
 
     if (users == null || users.Count == 0)
     {
-        return Results.NotFound(); // Se não houver usuários, retorne 404
+        return Results.NotFound(); 
     }
 
-    return Results.Ok(users); // Retorne os usuários e suas tarefas
+    return Results.Ok(users); 
 });
 
 
@@ -118,7 +116,7 @@ app.MapGet("/user/listar", async (AppDbContext context) =>
 app.MapPut("/user/alterar/{id}", async (int id, UserUpdateDto updatedUserDto, AppDbContext context) =>
 {
     var user = await context.Users
-        .Include(u => u.Tarefas) // Incluir tarefas para poder manipular a lista
+        .Include(u => u.TarefaUsers) 
         .FirstOrDefaultAsync(u => u.Id == id);
     
     if (user == null)
@@ -136,13 +134,13 @@ app.MapPut("/user/alterar/{id}", async (int id, UserUpdateDto updatedUserDto, Ap
         user.Password = BCrypt.Net.BCrypt.HashPassword(updatedUserDto.Password);
     }
 
-    // Atualizar a lista de tarefas
-    var tarefasAtualizadas = await context.Tarefas
-        .Where(t => updatedUserDto.TaskIds.Contains(t.Id))
+    
+    var tarefasAtualizadas = await context.TarefaUsers
+        .Where(t => updatedUserDto.TaskIds.Contains(t.TarefaId))
         .ToListAsync();
 
-    user.Tarefas.Clear(); // Limpar as tarefas atuais
-    user.Tarefas.AddRange(tarefasAtualizadas); // Adicionar as novas tarefas
+    user.TarefaUsers.Clear(); 
+    user.TarefaUsers.AddRange(tarefasAtualizadas); 
 
     await context.SaveChangesAsync();
     return Results.Ok("Usuário atualizado com sucesso.");
@@ -168,50 +166,29 @@ app.MapDelete("/user/deletar/{id}", async (int id, AppDbContext context) =>
 app.MapPost("/task/create", async (TaskCreateDto tarefaDto, AppDbContext context) =>
 {
     if (string.IsNullOrEmpty(tarefaDto.Name))
-    {
         return Results.BadRequest("O nome da tarefa é obrigatório.");
-    }
 
-    var usuariosNaoEncontrados = new List<int>();
-
-    try
+    var tarefa = new Tarefa
     {
-        var tarefa = new Tarefa
-        {
-            Name = tarefaDto.Name,
-            Description = tarefaDto.Description,
-            Status = tarefaDto.Status
-        };
+        Name = tarefaDto.Name,
+        Description = tarefaDto.Description,
+        Status = tarefaDto.Status
+    };
 
-        // Adicionar usuários diretamente à tarefa
-        foreach (var userId in tarefaDto.UserIds)
-        {
-            var user = await context.Users.FindAsync(userId);
-            if (user != null)
-            {
-                tarefa.Users.Add(user); // Adiciona o usuário diretamente à tarefa
-            }
-            else
-            {
-                usuariosNaoEncontrados.Add(userId);
-            }
-        }
-
-        if (usuariosNaoEncontrados.Any())
-        {
-            return Results.BadRequest($"Os seguintes IDs de usuários não foram encontrados: {string.Join(", ", usuariosNaoEncontrados)}.");
-        }
-
-        context.Tarefas.Add(tarefa);
-        await context.SaveChangesAsync();
-
-        return Results.Created($"/task/{tarefa.Id}", tarefa);
-    }
-    catch (Exception ex)
+    foreach (var userId in tarefaDto.UserIds)
     {
-        return Results.Problem($"Erro ao criar tarefa: {ex.Message}", statusCode: 500);
+        var user = await context.Users.FindAsync(userId);
+        if (user == null) return Results.BadRequest($"Usuário {userId} não encontrado.");
+
+        tarefa.TarefaUsers.Add(new TarefaUser { Tarefa = tarefa, User = user });
     }
+
+    context.Tarefas.Add(tarefa);
+    await context.SaveChangesAsync();
+
+    return Results.Created($"/task/{tarefa.Id}", tarefa);
 });
+
 
 
 
@@ -226,16 +203,11 @@ app.MapGet("/task/listar", async (AppDbContext context) =>
             t.Name,
             t.Description,
             t.Status,
-            UserIds = t.Users.Select(u => u.Id).ToList() // Lista de IDs de usuários
+            UserIds = t.TarefaUsers.Select(tu => tu.UserId).ToList()
         })
         .ToListAsync();
 
-    if (tarefas == null || tarefas.Count == 0)
-    {
-        return Results.NotFound(); // Se não houver tarefas, retorne 404
-    }
-
-    return Results.Ok(tarefas); // Retorne as tarefas e seus usuários
+    return Results.Ok(tarefas);
 });
 
 
@@ -253,31 +225,30 @@ app.MapGet("/task/{id}", async (int id, AppDbContext context) =>
 // PUT - Atualizar uma tarefa pelo Id, incluindo a lista de IDs de usuários
 app.MapPut("/task/editar/{id}", async (int id, TaskUpdateDto updatedTaskDto, AppDbContext context) =>
 {
-    var task = await context.Tarefas
-        .Include(t => t.Users) // Incluir usuários para manipular a lista
+    var tarefa = await context.Tarefas
+        .Include(t => t.TarefaUsers)
         .FirstOrDefaultAsync(t => t.Id == id);
-    
-    if (task == null)
+
+    if (tarefa == null) return Results.NotFound("Tarefa não encontrada.");
+
+    tarefa.Name = updatedTaskDto.Name;
+    tarefa.Description = updatedTaskDto.Description;
+    tarefa.Status = updatedTaskDto.Status;
+
+    tarefa.TarefaUsers.Clear();
+    foreach (var userId in updatedTaskDto.UserIds)
     {
-        return Results.NotFound("Tarefa não encontrada.");
+        var user = await context.Users.FindAsync(userId);
+        if (user != null)
+        {
+            tarefa.TarefaUsers.Add(new TarefaUser { TarefaId = tarefa.Id, UserId = userId });
+        }
     }
-
-    // Atualiza os campos da tarefa
-    task.Name = updatedTaskDto.Name;
-    task.Description = updatedTaskDto.Description;
-    task.Status = updatedTaskDto.Status;
-
-    // Atualizar a lista de usuários
-    var usuariosAtualizados = await context.Users
-        .Where(u => updatedTaskDto.UserIds.Contains(u.Id))
-        .ToListAsync();
-
-    task.Users.Clear(); // Limpar os usuários atuais
-    task.Users.AddRange(usuariosAtualizados); // Adicionar os novos usuários
 
     await context.SaveChangesAsync();
     return Results.Ok("Tarefa atualizada com sucesso.");
 });
+
 
 
 // DELETE - Excluir uma tarefa pelo Id
@@ -337,6 +308,7 @@ app.MapGet("/calendar/list", async (AppDbContext context) =>
 // GET - Obter calendários de um usuário específico
 app.MapGet("/calendar/user/{userId}", async (int userId, AppDbContext context) =>
 {
+
     var calendars = await context.Calendars
         .Where(c => c.UserId == userId)
         .Select(c => new
@@ -348,8 +320,14 @@ app.MapGet("/calendar/user/{userId}", async (int userId, AppDbContext context) =
         })
         .ToListAsync();
 
+    if (!calendars.Any())
+    {
+        return Results.NotFound("calendario não encontrado.");
+    }
+
     return Results.Ok(calendars);
 });
+
 
 // PUT - Atualizar um calendário
 app.MapPut("/calendar/update/{id}", async (int id, CalendarUpdateDto calendarDto, AppDbContext context) =>
@@ -382,6 +360,4 @@ app.MapDelete("/calendar/delete/{id}", async (int id, AppDbContext context) =>
     return Results.Ok("Calendário excluído com sucesso.");
 });
 
-
-// Executar a aplicação
 app.Run();

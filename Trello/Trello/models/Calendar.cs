@@ -15,10 +15,9 @@ namespace Trello.Models
 
         public DateTime Date { get; set; }
 
-        // Relacionamento com User
         public int UserId { get; set; }
 
-        [JsonIgnore] // Evita ciclos na serialização JSON
+        [JsonIgnore] 
         public User? User { get; set; }
     }
 }

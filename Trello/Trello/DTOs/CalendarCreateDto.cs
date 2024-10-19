@@ -12,5 +12,5 @@ public class CalendarCreateDto
     public DateTime Date { get; set; }
 
     [Required]
-    public int UserId { get; set; } // ID do usuário que está criando o calendário
+    public int UserId { get; set; } 
 }

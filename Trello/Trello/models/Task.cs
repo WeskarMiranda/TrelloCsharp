@@ -10,8 +10,8 @@ namespace Trello.Models
         public string? Description { get; set; }
         public string? Status { get; set; }
 
-        [JsonIgnore] // Ignorar para evitar ciclos
-        public List<User> Users { get; set; } = new List<User>(); // Relacionamento direto com Users
+        [JsonIgnore]
+        public List<TarefaUser> TarefaUsers { get; set; } = new List<TarefaUser>();
     }
 }
 

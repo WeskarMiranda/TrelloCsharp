@@ -1,9 +1,9 @@
 public class UserUpdateDto
 {
-    public string? Nome { get; set; } // Nome do usuário
-    public string? Email { get; set; } // Email do usuario
-    public string? Password { get; set; } // Nova senha, se houver
-    public List<int> TaskIds { get; set; } = new List<int>(); // Lista de IDs das tarefas associadas ao usuário
+    public string? Nome { get; set; } 
+    public string? Email { get; set; } 
+    public string? Password { get; set; } 
+    public List<int> TaskIds { get; set; } = new List<int>(); 
 
     public bool IsValid()
     {

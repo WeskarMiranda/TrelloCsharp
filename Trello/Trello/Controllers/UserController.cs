@@ -18,7 +18,6 @@ namespace Trello.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            // Lógica de login aqui
             var user = _context.Users.SingleOrDefault(u => u.Email == request.Email);
             if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
             {

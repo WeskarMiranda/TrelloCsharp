@@ -19,7 +19,7 @@ Content-Type: application/json
 GET http://localhost:5031/user/listar
 
 ###
-PUT http://localhost:5031/user/alterar/4
+PUT http://localhost:5031/user/alterar/1
 Content-Type: application/json
 
 {
@@ -41,20 +41,20 @@ Content-Type: application/json
     "name": "tesasss6",
     "description": "funcionou",
     "status": "pendente",
-    "userIds": [3, 2]
+    "userIds": [1]
 }
 ###
 GET http://localhost:5031/task/listar
 
 ###
-PUT http://localhost:5031/task/editar/5
+PUT http://localhost:5031/task/editar/1
 Content-Type: application/json
 
 {
     "name": "teste6",
     "description": "ewqeqweqwe",
     "status": "pendente",
-    "userIds": [1]
+    "userIds": [1, 2]
 }
 
 ###
@@ -78,7 +78,7 @@ GET http://localhost:5031/calendar/list
 GET http://localhost:5031/calendar/user/2
 
 ###
-PUT http://localhost:5031/calendar/update/2
+PUT http://localhost:5031/calendar/update/1
 Content-Type: application/json
 
 {

@@ -15,9 +15,8 @@ namespace Trello.Models
         [JsonIgnore]
         public List<Calendar> Calendars { get; set; } = new List<Calendar>();
         
-        // Lista de Tarefas que o usuário está associado
-        [JsonIgnore] // Evitar ciclos
-        public List<Tarefa> Tarefas { get; set; } = new List<Tarefa>();
+        [JsonIgnore] 
+        public List<TarefaUser> TarefaUsers { get; set; } = new List<TarefaUser>();
     }
 }
  

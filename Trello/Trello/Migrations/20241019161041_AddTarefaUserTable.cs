@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Trello.Migrations
 {
     /// <inheritdoc />
-    public partial class TaskUser : Migration
+    public partial class AddTarefaUserTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,40 +43,70 @@ namespace Trello.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTarefas",
+                name: "Calendars",
                 columns: table => new
                 {
-                    TarefasId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UsersId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTarefas", x => new { x.TarefasId, x.UsersId });
+                    table.PrimaryKey("PK_Calendars", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserTarefas_Tarefas_TarefasId",
-                        column: x => x.TarefasId,
+                        name: "FK_Calendars_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TarefaUsers",
+                columns: table => new
+                {
+                    TarefaId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TarefaUsers", x => new { x.UserId, x.TarefaId });
+                    table.ForeignKey(
+                        name: "FK_TarefaUsers_Tarefas_TarefaId",
+                        column: x => x.TarefaId,
                         principalTable: "Tarefas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserTarefas_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_TarefaUsers_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserTarefas_UsersId",
-                table: "UserTarefas",
-                column: "UsersId");
+                name: "IX_Calendars_UserId",
+                table: "Calendars",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TarefaUsers_TarefaId",
+                table: "TarefaUsers",
+                column: "TarefaId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "UserTarefas");
+                name: "Calendars");
+
+            migrationBuilder.DropTable(
+                name: "TarefaUsers");
 
             migrationBuilder.DropTable(
                 name: "Tarefas");

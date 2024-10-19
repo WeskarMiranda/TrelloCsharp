@@ -9,20 +9,28 @@ namespace Trello.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Tarefa> Tarefas { get; set; }
+        public DbSet<TarefaUser> TarefaUsers { get; set; }
         public DbSet<Calendar> Calendars { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configurar o relacionamento entre User e Calendar
             modelBuilder.Entity<Calendar>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Calendars)
                 .HasForeignKey(c => c.UserId);
-            // Configurar o relacionamento de muitos para muitos sem a tabela intermediária
-            modelBuilder.Entity<Tarefa>()
-                .HasMany(t => t.Users)
-                .WithMany(u => u.Tarefas)
-                .UsingEntity(j => j.ToTable("UserTarefas")); // Tabela intermediária para o relacionamento
+            
+            modelBuilder.Entity<TarefaUser>()
+            .HasKey(tu => new { tu.UserId, tu.TarefaId });
+
+            modelBuilder.Entity<TarefaUser>()
+            .HasOne(tu => tu.User)
+            .WithMany(u => u.TarefaUsers)
+            .HasForeignKey(tu => tu.UserId);
+
+            modelBuilder.Entity<TarefaUser>()
+            .HasOne(tu => tu.Tarefa)
+            .WithMany(t => t.TarefaUsers)
+            .HasForeignKey(tu => tu.TarefaId);
         }
     }
 }

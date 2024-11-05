@@ -1,16 +1,18 @@
+// LoginForm.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importe useNavigate
+import { useUser } from '../UserContext'; // Importa o contexto de usuário
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+  const { setUser } = useUser(); // Acessa a função para definir o usuário
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [loading, setLoading] = useState(false); // Estado de carregamento
-  const navigate = useNavigate(); // Crie uma instância de useNavigate
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const loginUser = async (user) => {
-    setLoading(true); // Define o carregamento como verdadeiro
+    setLoading(true);
     try {
       const response = await fetch('http://localhost:5031/user/login', {
         method: 'POST',
@@ -23,34 +25,22 @@ const LoginForm = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setSuccess('Login realizado com sucesso!');
-        setError(''); // Limpa a mensagem de erro
-
-        // Redirecionar para a página de dashboard após login bem-sucedido
-        navigate('/dashboard'); 
+        setUser(data); // Armazena os dados do usuário no contexto
+        navigate('/dashboard'); // Redireciona para o dashboard
       } else {
-        setError(data.message || 'Erro ao realizar login'); // Mostra a mensagem de erro do servidor
-        setSuccess(''); // Limpa a mensagem de sucesso
+        setError(data.message || 'Erro ao realizar login');
       }
     } catch (err) {
       console.error('Erro ao realizar login:', err);
       setError('Ocorreu um erro ao fazer login. Tente novamente.');
-      setSuccess(''); // Limpa a mensagem de sucesso
     } finally {
-      setLoading(false); // Define o carregamento como falso
+      setLoading(false);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Validação simples
-    if (!email || !password) {
-      setError('Por favor, preencha todos os campos.');
-      return;
-    }
-
-    const user = { Email: email, Password: password }; // Mantém as propriedades como "Email" e "Password"
+    const user = { Email: email, Password: password }; // Formato dos campos
     loginUser(user); // Chama a função de login
   };
 
@@ -60,11 +50,11 @@ const LoginForm = () => {
         <div>
           <label>Email:</label>
           <input
-            type="email" // Alterado para type="email"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Digite seu email" // Placeholder adicionado
-            required // Torna o campo obrigatório
+            placeholder="Digite seu email"
+            required
           />
         </div>
         <div>
@@ -73,16 +63,15 @@ const LoginForm = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Digite sua senha" // Placeholder adicionado
-            required // Torna o campo obrigatório
+            placeholder="Digite sua senha"
+            required
           />
         </div>
-        <button type="submit" disabled={loading}> {/* Desabilita o botão durante o carregamento */}
+        <button type="submit" disabled={loading}>
           {loading ? 'Carregando...' : 'Login'}
         </button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>} {/* Mensagem de erro */}
-      {success && <p style={{ color: 'green' }}>{success}</p>} {/* Mensagem de sucesso */}
     </div>
   );
 };

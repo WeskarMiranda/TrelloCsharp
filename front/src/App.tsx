@@ -2,11 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './UserContext'; 
 import Home from './components/pages/Home'; 
-import RegisterForm from './components/pages/Registrar'; 
-import LoginForm from './components/pages/Login'; 
+import Registrar from './components/pages/usuario/Registrar'; 
+import Login from './components/pages/usuario/Login'; 
 import Dashboard from './components/pages/Dashboard'; 
-import CreateTaskForm from './components/pages/CriarTarefa'; 
-import EditTask from './components/pages/EditarTarefa';
+import CriarTarefa from './components/pages/tarefas/CriarTarefa'; 
+import EditarTarefa from './components/pages/tarefas/EditarTarefa';
 
 function App() {
   return (
@@ -14,11 +14,11 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<Registrar />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/create-task" element={<CreateTaskForm />} />
-          <Route path="/task/edit/:id" element={<EditTask />} />
+          <Route path="/create-task" element={<CriarTarefa />} />
+          <Route path="/task/edit/:id" element={<EditarTarefa />} />
         </Routes>
       </Router>
     </UserProvider>

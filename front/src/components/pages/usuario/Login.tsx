@@ -1,10 +1,10 @@
 import React, { useState, FormEvent } from 'react';
-import { useUser } from '../../UserContext';
+import { useUser } from '../../../UserContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Usuario } from '../interfaces/Usuario';
+import { Usuario } from '../../interfaces/Usuario';
 
-const LoginForm: React.FC = () => {
+const Login: React.FC = () => {
   const { setUser } = useUser();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -61,4 +61,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default Login;

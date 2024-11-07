@@ -12,7 +12,7 @@ const Dashboard: React.FC = () => {
     const [users, setUsers] = useState<Usuario[]>([]);
     const [taskUserAssociations, setTaskUserAssociations] = useState<TarefaUser[]>([]);
     const [error, setError] = useState<string>('');
-  
+
     useEffect(() => {
         const fetchTasks = async () => {
             try {
@@ -34,7 +34,6 @@ const Dashboard: React.FC = () => {
             }
         };
 
-        // Supondo que você tenha um endpoint para obter as associações entre tarefas e usuários
         const fetchTaskUserAssociations = async () => {
             try {
                 const response = await axios.get<TarefaUser[]>('http://localhost:5031/taskuser/listar');
@@ -52,10 +51,11 @@ const Dashboard: React.FC = () => {
 
     const getUsersForTask = (taskId: number) => {
         const userIds = taskUserAssociations
-            .filter(assoc => assoc.Tarefaid === taskId)
-            .map(assoc => assoc.Userid);
+            .filter(assoc => assoc.tarefaId === taskId)
+            .map(assoc => assoc.userId);
 
-        return users.filter(user => userIds.includes(user.id));
+        const associatedUsers = users.filter(user => userIds.includes(user.id));
+        return associatedUsers;
     };
 
     const handleDelete = async (id: number) => {
@@ -67,9 +67,18 @@ const Dashboard: React.FC = () => {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('authToken'); 
+
+        navigate('/'); 
+    };
+
     return (
         <div className="dashboard" style={{ padding: '20px' }}>
             <h1>Bem-vindo ao Dashboard!</h1>
+            <button onClick={handleLogout} style={{ marginBottom: '20px' }}>
+                Logout
+            </button>
             <button onClick={() => navigate('/create-task')}>Criar Tarefa</button>
 
             {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -103,4 +112,5 @@ const Dashboard: React.FC = () => {
 };
 
 export default Dashboard;
+
 

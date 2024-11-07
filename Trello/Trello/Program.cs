@@ -379,4 +379,6 @@ app.MapGet("/taskuser/listar", async (AppDbContext context) =>
     return Results.Ok(taskUserAssociations);
 });
 
+
+
 app.Run();

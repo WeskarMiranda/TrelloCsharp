@@ -1,7 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Usuario } from '../interfaces/Usuario';
+import { Usuario } from '../../interfaces/Usuario';
 
 const Registrar: React.FC = () => {
   const [nome, setNome] = useState<string>('');
@@ -20,7 +20,7 @@ const Registrar: React.FC = () => {
         setNome('');
         setEmail('');
         setPassword('');
-        navigate('/dashboard');
+        navigate('/login');
       }
     } catch (err) {
       console.error('Erro ao cadastrar usuário:', err);

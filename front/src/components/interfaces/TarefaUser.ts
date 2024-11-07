@@ -2,8 +2,8 @@ import { Tarefa } from "./Tarefa";
 import { Usuario } from "./Usuario";
 
 export interface TarefaUser {
-    Tarefaid: number;
+    tarefaId: number;
     Tarefa: Tarefa;
-    Userid: number;
+    userId: number;
     Usuario: Usuario;
 }

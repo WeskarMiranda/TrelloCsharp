@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Usuario } from '../interfaces/Usuario'; // Certifique-se de que o caminho está correto
+import { Usuario } from '../../interfaces/Usuario';
 
-const CreateTaskForm: React.FC = () => {
+const CriarTarefa: React.FC = () => {
   const [taskName, setTaskName] = useState<string>('');
   const [taskDescription, setTaskDescription] = useState<string>('');
   const [taskStatus, setTaskStatus] = useState<string>('pendente');
-  const [users, setUsers] = useState<Usuario[]>([]); // Especificando que é um array de Usuario
+  const [users, setUsers] = useState<Usuario[]>([]);
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
 
   useEffect(() => {
@@ -79,5 +79,6 @@ const CreateTaskForm: React.FC = () => {
   );
 };
 
-export default CreateTaskForm;
+export default CriarTarefa;
+
 

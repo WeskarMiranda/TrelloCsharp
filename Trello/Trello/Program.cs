@@ -360,4 +360,23 @@ app.MapDelete("/calendar/delete/{id}", async (int id, AppDbContext context) =>
     return Results.Ok("Calendário excluído com sucesso.");
 });
 
+// GET - Obter a lista de associações entre tarefas e usuários
+app.MapGet("/taskuser/listar", async (AppDbContext context) =>
+{
+    var taskUserAssociations = await context.TarefaUsers
+        .Select(tu => new 
+        {
+            tu.TarefaId,
+            tu.UserId
+        })
+        .ToListAsync();
+
+    if (taskUserAssociations == null || !taskUserAssociations.Any())
+    {
+        return Results.NotFound("Nenhuma associação encontrada.");
+    }
+
+    return Results.Ok(taskUserAssociations);
+});
+
 app.Run();

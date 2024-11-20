@@ -4,7 +4,8 @@ import axios from 'axios';
 import { Tarefa } from '../interfaces/Tarefa';
 import { Usuario } from '../interfaces/Usuario';
 import { TarefaUser } from '../interfaces/TarefaUser';
-import './Dashboard.css';
+import './css/Deashboard.css'
+
 
 const Dashboard: React.FC = () => {
     const navigate = useNavigate();
@@ -74,41 +75,41 @@ const Dashboard: React.FC = () => {
     };
 
     return (
-        <div className="dashboard" style={{ padding: '20px' }}>
-            <h1>Bem-vindo ao Dashboard!</h1>
-            <button onClick={handleLogout} style={{ marginBottom: '20px' }}>
-                Logout
-            </button>
-            <button onClick={() => navigate('/create-task')}>Criar Tarefa</button>
-
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-
-            <h2>Tarefas</h2>
-            {tasks.length === 0 ? (
-                <p>Nenhuma tarefa encontrada.</p>
-            ) : (
-                <div className="task-cards-container">
-                    {tasks.map((task) => (
-                        <div key={task.id} className="task-card">
-                            <h3>{task.name}</h3>
-                            <p>Status: {task.status}</p>
-                            <p>Descrição: {task.description}</p>
-                            <p>Integrantes:</p>
-                            <ul>
-                                {getUsersForTask(task.id).map(user => (
-                                    <li key={user.id}>{user.nome}</li>
-                                ))}
-                            </ul>
-                            <div className="task-card-actions">
-                                <button onClick={() => navigate(`/task/edit/${task.id}`)}>Editar</button>
-                                <button onClick={() => handleDelete(task.id)}>Excluir</button>
-                            </div>
-                        </div>
+        <div className="dashboard">
+          <div className="dashboard-header">
+            <button onClick={handleLogout}>Logout</button>
+          </div>
+          <h1>Bem-vindo ao Dashboard!</h1>
+          <button onClick={() => navigate('/create-task')}>Criar Tarefa</button>
+      
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+      
+          <h2>Tarefas</h2>
+          {tasks.length === 0 ? (
+            <p>Nenhuma tarefa encontrada.</p>
+          ) : (
+            <div className="task-cards-container">
+              {tasks.map((task) => (
+                <div key={task.id} className="task-card">
+                  <h3>{task.name}</h3>
+                  <p>Status: {task.status}</p>
+                  <p>Descrição: {task.description}</p>
+                  <p>Integrantes:</p>
+                  <ul>
+                    {getUsersForTask(task.id).map(user => (
+                      <li key={user.id}>{user.nome}</li>
                     ))}
+                  </ul>
+                  <div className="task-card-actions">
+                    <button onClick={() => navigate(`/task/edit/${task.id}`)}>Editar</button>
+                    <button onClick={() => handleDelete(task.id)}>Excluir</button>
+                  </div>
                 </div>
-            )}
+              ))}
+            </div>
+          )}
         </div>
-    );
+      );      
 };
 
 export default Dashboard;

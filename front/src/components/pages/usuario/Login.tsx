@@ -3,6 +3,7 @@ import { useUser } from '../../../UserContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../../interfaces/Usuario';
+import '../css/Login.css'
 
 const Login: React.FC = () => {
   const { setUser } = useUser();
@@ -32,7 +33,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="login-form-container">
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email:</label>
@@ -58,7 +59,7 @@ const Login: React.FC = () => {
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
-  );
+  );  
 };
 
 export default Login;

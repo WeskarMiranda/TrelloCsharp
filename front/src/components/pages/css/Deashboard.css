@@ -1,0 +1,154 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #eef2f6; /* Fundo suave */
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Estilo do Dashboard */
+  .dashboard {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+  }
+  
+  /* Header para posicionar botão de logout */
+  .dashboard-header {
+    display: flex;
+    justify-content: flex-end; /* Botão no canto direito */
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-header button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dashboard-header button:hover {
+    background-color: #357abd; /* Azul mais escuro no hover */
+  }
+  
+  .dashboard h1 {
+    font-size: 2.4rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #000000; /* Azul suave */
+  }
+  
+  /* Botões padrão no dashboard */
+  .dashboard button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dashboard button:hover {
+    background-color: #357abd; /* Azul mais escuro no hover */
+  }
+  
+  .dashboard h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  /* Grid dos Cards */
+  .task-cards-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Quatro cards por linha */
+    gap: 20px; /* Espaçamento entre os cards */
+    margin-top: 20px;
+  }
+  
+  /* Estilo dos Cards */
+  .task-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 320px; /* Altura fixa */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  .task-card h3 {
+    font-size: 1.6rem;
+    color: #000000;
+    margin-bottom: 10px;
+  }
+  
+  .task-card p {
+    font-size: 1rem;
+    margin: 8px 0;
+    color: #555;
+    font-weight: bold; /* Textos em negrito */
+  }
+  
+  /* Lista de Integrantes */
+  .task-card ul {
+    list-style: disc;
+    margin: 10px 0 0 20px; /* Espaçamento à esquerda */
+    padding: 0;
+  }
+  
+  .task-card ul li {
+    font-size: 0.9rem;
+    margin: 5px 0;
+    font-weight: bold; /* Negrito para os itens da lista */
+    color: #333;
+  }
+  
+  /* Botões nos Cards */
+  .task-card-actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: center; /* Centraliza os botões */
+    gap: 20px;
+  }
+  
+  .task-card-actions button {
+    padding: 10px 15px;
+    font-size: 1rem; /* Aumentei o tamanho da fonte */
+    border: none;
+    border-radius: 5px;
+    background-color: #4a90e2;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .task-card-actions button:hover {
+    background-color: #357abd; /* Azul mais escuro no hover */
+  }
+  

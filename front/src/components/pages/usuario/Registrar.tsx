@@ -2,6 +2,7 @@ import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../../interfaces/Usuario';
+import '../css/Registrar.css'
 
 const Registrar: React.FC = () => {
   const [nome, setNome] = useState<string>('');
@@ -35,7 +36,7 @@ const Registrar: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="login-form-container">
       <form onSubmit={handleSubmit}>
         <div>
           <label>Nome:</label>
@@ -64,13 +65,12 @@ const Registrar: React.FC = () => {
             required
           />
         </div>
-        <button type="submit">Registrar</button>
+        <button className = "registrar"type="submit">Registrar</button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
+      {error && <p>{error}</p>}
+      {success && <p>{success}</p>}
     </div>
   );
 };
 
 export default Registrar;
-

@@ -10,10 +10,10 @@ const Home = () => {
         <h1>Bem-vindo ao Trello App</h1>
         <div>
           <Link to="/login">
-            <button>Login</button>
+            <button className='homebt'>Login</button>
           </Link>
           <Link to="/register">
-            <button>Cadastro</button>
+            <button className='homebt'>Cadastro</button>
           </Link>
         </div>
       </header>

@@ -51,22 +51,26 @@
     color: #000000; /* Azul suave */
   }
   
-  /* Botões padrão no dashboard */
-  .dashboard button {
-    background-color: #4a90e2;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin: 10px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .dashboard button:hover {
-    background-color: #357abd; /* Azul mais escuro no hover */
-  }
+  /* Ajuste para a largura dos botões no dashboard */
+.dashboard button {
+  width: auto; /* Remove a largura fixa */
+  max-width: 200px; /* Limita a largura máxima */
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #4a90e2;
+  color: white;
+  cursor: pointer;
+  margin: 10px;
+  transition: background-color 0.3s ease;
+  display: inline-block; /* Ajusta os botões ao tamanho do conteúdo */
+  text-align: center;
+}
+
+.dashboard button:hover {
+  background-color: #357abd; /* Azul mais escuro no hover */
+}
   
   .dashboard h2 {
     font-size: 1.8rem;
@@ -150,5 +154,23 @@
   
   .task-card-actions button:hover {
     background-color: #357abd; /* Azul mais escuro no hover */
+  }
+  
+  @media (max-width: 1024px) {
+    .task-cards-container {
+      grid-template-columns: repeat(3, 1fr); /* Três cards por linha em telas médias */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .task-cards-container {
+      grid-template-columns: repeat(2, 1fr); /* Dois cards por linha em telas pequenas */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .task-cards-container {
+      grid-template-columns: 1fr; /* Um card por linha em telas muito pequenas */
+    }
   }
   

@@ -53,7 +53,7 @@ const Login: React.FC = () => {
             required
           />
         </div>
-        <button type="submit" disabled={loading}>
+        <button className = "homebt" type="submit" disabled={loading}>
           {loading ? 'Carregando...' : 'Login'}
         </button>
       </form>

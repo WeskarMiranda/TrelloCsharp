@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../../interfaces/Usuario';
 import { Tarefa } from '../../interfaces/Tarefa';
+import '../css/EditarTarefa.css'
 
 const EditarTarefa: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -72,7 +73,8 @@ const EditarTarefa: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div data-testid="item-content" className="teste">
+    <form className="forms" onSubmit={handleSubmit}>
       <h2>Editar Tarefa</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <div>
@@ -102,19 +104,24 @@ const EditarTarefa: React.FC = () => {
           <option value="concluída">Concluída</option>
         </select>
       </div>
-      <h3>Selecione os Integrantes:</h3>
-      {users.map(user => (
-        <div key={user.id}>
-          <input
-            type="checkbox"
-            checked={selectedUserIds.includes(user.id)}
-            onChange={() => handleUserSelect(user.id)}
-          />
-          {user.nome}
-        </div>
-      ))}
-      <button type="submit">Salvar Alterações</button>
-    </form>
+      <div data-testid="item-content" className="sc-b4f18a95-3 ksPhOk">
+        {users.map((user) => (
+          <div className="checkbox-item" key={user.id}>
+            <label className="sc-657bc1dc-0 kseUnL">  
+            {user.nome}
+            <input
+              type="checkbox"
+              checked={selectedUserIds.includes(user.id)}
+              onChange={() => handleUserSelect(user.id)}
+            />
+            </label>
+          </div>
+        ))}
+      </div>
+
+      <button className='criarbt'type="submit">Salvar Alterações</button>
+      </form>
+    </div>
   );
 };
 

@@ -155,6 +155,117 @@
   .task-card-actions button:hover {
     background-color: #357abd; /* Azul mais escuro no hover */
   }
+  .calendar-cards-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Quatro cards por linha */
+    gap: 20px; /* Espaçamento entre os cards */
+    margin-top: 20px;
+  }
+  
+  /* Estilo dos Cards de Calendário */
+  .calendar-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 320px; /* Altura fixa */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .calendar-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  .calendar-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .calendar-card-header h3 {
+    margin-left: 15px;
+    font-size: 1.6rem;
+    color: #000000;
+    margin-bottom: 0;
+  }
+  
+  .calendar-card p {
+    font-size: 1rem;
+    margin: 8px 0;
+    color: #555;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Estilo da Data do Calendário */
+  .calendar-date {
+    width: 60px;
+    height: 70px;
+    background-color: #4a90e2;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+  }
+  
+  .calendar-date-header {
+    background-color: #357abd;
+    padding: 5px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  
+  .calendar-date-body {
+    font-size: 1.8rem;
+    padding: 10px 0;
+  }
+  
+  /* Botões nos Cards de Calendário */
+  .calendar-card-actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .calendar-card-actions button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #4a90e2;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .calendar-card-actions button:hover {
+    background-color: #357abd;
+  }
+  
+  /* Responsividade para os Cards de Calendário */
+  @media (max-width: 1024px) {
+    .calendar-cards-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .calendar-cards-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .calendar-cards-container {
+      grid-template-columns: 1fr;
+    }
+  }
   
   @media (max-width: 1024px) {
     .task-cards-container {

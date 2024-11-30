@@ -33,7 +33,7 @@ namespace Trello.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -103,13 +103,9 @@ namespace Trello.Migrations
 
             modelBuilder.Entity("Trello.Models.Calendar", b =>
                 {
-                    b.HasOne("Trello.Models.User", "User")
+                    b.HasOne("Trello.Models.User", null)
                         .WithMany("Calendars")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Trello.Models.TarefaUser", b =>

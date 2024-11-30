@@ -14,10 +14,6 @@ namespace Trello.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Calendar>()
-                .HasOne(c => c.User)
-                .WithMany(u => u.Calendars)
-                .HasForeignKey(c => c.UserId);
             
             modelBuilder.Entity<TarefaUser>()
             .HasKey(tu => new { tu.UserId, tu.TarefaId });

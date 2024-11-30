@@ -1,287 +1,165 @@
 /* Reset básico */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #eef2f6; /* Fundo suave */
-    color: #333;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Estilo do Dashboard */
-  .dashboard {
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 20px;
-    position: relative;
-  }
-  
-  /* Header para posicionar botão de logout */
-  .dashboard-header {
-    display: flex;
-    justify-content: flex-end; /* Botão no canto direito */
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .dashboard-header button {
-    background-color: #4a90e2;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .dashboard-header button:hover {
-    background-color: #357abd; /* Azul mais escuro no hover */
-  }
-  
-  .dashboard h1 {
-    font-size: 2.4rem;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #000000; /* Azul suave */
-  }
-  
-  /* Ajuste para a largura dos botões no dashboard */
-.dashboard button {
-  width: auto; /* Remove a largura fixa */
-  max-width: 200px; /* Limita a largura máxima */
-  padding: 10px 20px;
-  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  background-color: #eef2f6;
+  color: #333;
+  overflow-x: hidden; /* Evita barra de rolagem horizontal */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
+}
+
+/* Container principal */
+.dashboard {
+  width: 100%;
+  max-width: 1200px; /* Limite de largura para evitar expansão exagerada */
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* Permite quebra de linha */
+}
+
+.dashboard-header h1 {
+  font-size: 1.8rem;
+  flex: 1 1 100%; /* Ocupa 100% no topo */
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.dashboard-header button {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  background-color: #4a90e2;
+  color: white;
   border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-header button:hover {
+  background-color: #357abd;
+}
+
+.dashboard h2 {
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 15px 0;
+}
+
+/* Grid de Cards */
+.task-cards-container,
+.calendar-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adapta os cards para caberem na tela */
+  gap: 15px;
+  margin: 20px 0;
+}
+
+/* Estilo dos Cards */
+.task-card,
+.calendar-card {
+  background-color: white;
   border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.task-card h3,
+.calendar-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.task-card p,
+.calendar-card p {
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+.task-card ul {
+  list-style: disc;
+  margin: 5px 0 0 15px;
+  padding: 0;
+}
+
+.task-card ul li {
+  font-size: 0.8rem;
+  margin: 3px 0;
+}
+
+/* Ações nos Cards */
+.task-card-actions,
+.calendar-card-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.task-card-actions button,
+.calendar-card-actions button {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 5px;
   background-color: #4a90e2;
   color: white;
   cursor: pointer;
-  margin: 10px;
   transition: background-color 0.3s ease;
-  display: inline-block; /* Ajusta os botões ao tamanho do conteúdo */
-  text-align: center;
 }
 
-.dashboard button:hover {
-  background-color: #357abd; /* Azul mais escuro no hover */
+.task-card-actions button:hover,
+.calendar-card-actions button:hover {
+  background-color: #357abd;
 }
-  
-  .dashboard h2 {
-    font-size: 1.8rem;
-    color: #333;
-    margin-top: 20px;
-    margin-bottom: 15px;
-    text-align: left;
-  }
-  
-  /* Grid dos Cards */
-  .task-cards-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Quatro cards por linha */
-    gap: 20px; /* Espaçamento entre os cards */
-    margin-top: 20px;
-  }
-  
-  /* Estilo dos Cards */
-  .task-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    padding: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 320px; /* Altura fixa */
-    display: flex;
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .dashboard-header {
     flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .task-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  }
-  
-  .task-card h3 {
-    font-size: 1.6rem;
-    color: #000000;
-    margin-bottom: 10px;
-  }
-  
-  .task-card p {
-    font-size: 1rem;
-    margin: 8px 0;
-    color: #555;
-    font-weight: bold; /* Textos em negrito */
-  }
-  
-  /* Lista de Integrantes */
-  .task-card ul {
-    list-style: disc;
-    margin: 10px 0 0 20px; /* Espaçamento à esquerda */
-    padding: 0;
-  }
-  
-  .task-card ul li {
-    font-size: 0.9rem;
-    margin: 5px 0;
-    font-weight: bold; /* Negrito para os itens da lista */
-    color: #333;
-  }
-  
-  /* Botões nos Cards */
-  .task-card-actions {
-    margin-top: auto;
-    display: flex;
-    justify-content: center; /* Centraliza os botões */
-    gap: 20px;
-  }
-  
-  .task-card-actions button {
-    padding: 10px 15px;
-    font-size: 1rem; /* Aumentei o tamanho da fonte */
-    border: none;
-    border-radius: 5px;
-    background-color: #4a90e2;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .task-card-actions button:hover {
-    background-color: #357abd; /* Azul mais escuro no hover */
-  }
-  .calendar-cards-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Quatro cards por linha */
-    gap: 20px; /* Espaçamento entre os cards */
-    margin-top: 20px;
-  }
-  
-  /* Estilo dos Cards de Calendário */
-  .calendar-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    padding: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 320px; /* Altura fixa */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .calendar-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  }
-  
-  .calendar-card-header {
-    display: flex;
     align-items: center;
-    margin-bottom: 15px;
   }
-  
-  .calendar-card-header h3 {
-    margin-left: 15px;
-    font-size: 1.6rem;
-    color: #000000;
-    margin-bottom: 0;
+
+  .dashboard-header button {
+    margin: 5px 0;
+    width: 100%;
   }
-  
-  .calendar-card p {
-    font-size: 1rem;
-    margin: 8px 0;
-    color: #555;
-    font-weight: bold;
-    text-align: center;
+
+  .task-cards-container,
+  .calendar-cards-container {
+    grid-template-columns: 1fr; /* Mostra uma coluna em telas pequenas */
   }
-  
-  /* Estilo da Data do Calendário */
-  .calendar-date {
-    width: 60px;
-    height: 70px;
-    background-color: #4a90e2;
-    border-radius: 5px;
-    color: white;
-    text-align: center;
+}
+
+@media (max-width: 480px) {
+  .dashboard h1 {
+    font-size: 1.4rem;
   }
-  
-  .calendar-date-header {
-    background-color: #357abd;
-    padding: 5px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+
+  .dashboard h2 {
+    font-size: 1.2rem;
   }
-  
-  .calendar-date-body {
-    font-size: 1.8rem;
-    padding: 10px 0;
-  }
-  
-  /* Botões nos Cards de Calendário */
-  .calendar-card-actions {
-    margin-top: auto;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  .calendar-card-actions button {
-    padding: 10px 15px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #4a90e2;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .calendar-card-actions button:hover {
-    background-color: #357abd;
-  }
-  
-  /* Responsividade para os Cards de Calendário */
-  @media (max-width: 1024px) {
-    .calendar-cards-container {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .calendar-cards-container {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .calendar-cards-container {
-      grid-template-columns: 1fr;
-    }
-  }
-  
-  @media (max-width: 1024px) {
-    .task-cards-container {
-      grid-template-columns: repeat(3, 1fr); /* Três cards por linha em telas médias */
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .task-cards-container {
-      grid-template-columns: repeat(2, 1fr); /* Dois cards por linha em telas pequenas */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .task-cards-container {
-      grid-template-columns: 1fr; /* Um card por linha em telas muito pequenas */
-    }
-  }
-  
+}

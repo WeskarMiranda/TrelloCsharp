@@ -161,8 +161,8 @@ const Dashboard: React.FC = () => {
                 )}
               </ul>
               <div className="calendar-card-actions">
+              <button onClick={() => navigate(`/calendar/edit/${calendar.id}`)}>Editar</button>
                 <button onClick={() => handleDeleteCalendar(calendar.id)}>Excluir</button>
-                <button onClick={() => navigate(`/calendar/edit/${calendar.id}`)}>Editar</button>
               </div>
             </div>
           ))}

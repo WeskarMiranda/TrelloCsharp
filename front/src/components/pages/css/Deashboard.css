@@ -73,7 +73,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adapta os cards para caberem na tela */
   gap: 15px;
-  margin: 20px 0;
+  margin: 35px 0;
 }
 
 /* Estilo dos Cards */
@@ -96,8 +96,8 @@ body {
 
 .task-card p,
 .calendar-card p {
-  font-size: 0.9rem;
-  margin: 5px 0;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 }
 
 .task-card ul {

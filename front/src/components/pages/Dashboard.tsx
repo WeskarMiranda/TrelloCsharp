@@ -5,7 +5,6 @@ import { Tarefa } from '../interfaces/Tarefa';
 import { Usuario } from '../interfaces/Usuario';
 import { TarefaUser } from '../interfaces/TarefaUser';
 import { Calendar } from '../interfaces/Calendar';
-import { CalendarUser } from '../interfaces/CalendarUser';
 import './css/Deashboard.css';
 
 const Dashboard: React.FC = () => {
@@ -13,7 +12,6 @@ const Dashboard: React.FC = () => {
   const [tasks, setTasks] = useState<Tarefa[]>([]);
   const [users, setUsers] = useState<Usuario[]>([]);
   const [taskUserAssociations, setTaskUserAssociations] = useState<TarefaUser[]>([]);
-  const [calendarUserAssociations, setCalendarUserAssociations] = useState<CalendarUser[]>([]);
   const [calendars, setCalendars] = useState<Calendar[]>([]); 
   const [error, setError] = useState<string>('');
 
@@ -72,6 +70,10 @@ const Dashboard: React.FC = () => {
 
     const associatedUsers = users.filter(user => userIds.includes(user.id));
     return associatedUsers;
+  };
+
+  const getUserForCalendar = (userId: number) => {
+    return users.find(user => user.id === userId);
   };
 
 
@@ -152,8 +154,15 @@ const Dashboard: React.FC = () => {
                 <h3>{calendar.title}</h3>
               </div>
               <p>Descrição: {calendar.description}</p>
+              <p>Integrantes:</p>
+              <ul>
+                {getUserForCalendar(calendar.userId) && (
+                  <li>{getUserForCalendar(calendar.userId)?.nome}</li>
+                )}
+              </ul>
               <div className="calendar-card-actions">
                 <button onClick={() => handleDeleteCalendar(calendar.id)}>Excluir</button>
+                <button onClick={() => navigate(`/calendar/edit/${calendar.id}`)}>Editar</button>
               </div>
             </div>
           ))}

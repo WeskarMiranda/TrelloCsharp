@@ -11,8 +11,8 @@ using Trello.Data;
 namespace Trello.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241019161041_AddTarefaUserTable")]
-    partial class AddTarefaUserTable
+    [Migration("20241130222132_InicialCreate")]
+    partial class InicialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

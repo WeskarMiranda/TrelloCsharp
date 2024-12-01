@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Usuario } from '../../interfaces/Usuario';
-import '../css/CriarTarefa.css';  // Adicionando o arquivo CSS
+import '../css/CriarTarefa.css';  
 
 const CriarTarefa: React.FC = () => {
   const [taskName, setTaskName] = useState<string>('');
@@ -40,7 +40,7 @@ const CriarTarefa: React.FC = () => {
         Status: taskStatus,
         UserIds: selectedUserIds,
       });
-      window.location.href = '/dashboard';  // Redirecionamento após a criação
+      window.location.href = '/dashboard'; 
     } catch (error) {
       console.error("Erro ao criar tarefa: ", error);
       setError('Erro ao criar a tarefa. Tente novamente.');
@@ -52,7 +52,7 @@ const CriarTarefa: React.FC = () => {
       <form className="forms" onSubmit={handleSubmit}>
         <h2>Criar Nova Tarefa</h2>
 
-        {error && <p>{error}</p>}  {/* Exibindo erros */}
+        {error && <p>{error}</p>} 
 
         <div>
           <label htmlFor="taskName">Nome da Tarefa:</label>

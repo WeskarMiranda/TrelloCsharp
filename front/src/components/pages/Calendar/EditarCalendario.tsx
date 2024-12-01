@@ -3,14 +3,13 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar } from '../../interfaces/Calendar';
 import { Usuario } from '../../interfaces/Usuario';
-import { CalendarUser } from '../../interfaces/CalendarUser';
 
 const EditarCalendario: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>(); 
   const navigate = useNavigate();
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [date, setDate] = useState<string>(''); // Mantém como string
+  const [date, setDate] = useState<string>(''); 
   const [users, setUsers] = useState<Usuario[]>([]);
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [error, setError] = useState<string>('');
@@ -22,10 +21,12 @@ const EditarCalendario: React.FC = () => {
         setTitle(response.data.title);
         setDescription(response.data.description);
 
-        // Converte a data em string no formato 'YYYY-MM-DD'
         const dateString = new Date(response.data.date).toISOString().split('T')[0];
         setDate(dateString);
         
+        if (response.data.userId) {
+          setSelectedUserIds([response.data.userId]);
+        }
       } catch (error) {
         console.error('Erro ao buscar calendário:', error);
         setError('Erro ao carregar o calendário.');
@@ -107,6 +108,7 @@ const EditarCalendario: React.FC = () => {
             required
           />
         </div>
+
 
         <div>
           <label>Selecione os Usuários:</label>

@@ -33,11 +33,18 @@ const CriarCalendario: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+  
+    if (selectedUserIds.length === 0) {
+      setError('Selecione ao menos um usuário.');
+      return;
+    }
+  
     try {
       await axios.post('http://localhost:5031/calendar/create', {
         Title: title,
         Description: description,
         Date: date,
+        UserId: selectedUserIds[0], 
       });
       window.location.href = '/dashboard';
     } catch (error) {
@@ -45,6 +52,7 @@ const CriarCalendario: React.FC = () => {
       setError('Erro ao criar o calendário. Tente novamente.');
     }
   };
+  
 
   return (
     <div className="create-calendar">

@@ -10,4 +10,5 @@ public class CalendarUpdateDto
 
     [Required]
     public DateTime Date { get; set; }
+
 }
